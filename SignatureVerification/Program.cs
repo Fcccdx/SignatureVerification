@@ -11,19 +11,12 @@ namespace Temalabor2021
     {
         public static class MyFeatures
         {
-            public static readonly FeatureDescriptor<List<Loop>> Loop = FeatureDescriptor.Get<List<Loop>>("Loop");
-            public static FeatureDescriptor<bool[,]> Binarized = FeatureDescriptor.Get<bool[,]>("Binarized");
-            public static FeatureDescriptor<bool[,]> Skeleton = FeatureDescriptor.Get<bool[,]>("Skeleton");
-            public static FeatureDescriptor<List<double>> Tangent = FeatureDescriptor.Get<List<double>>("Tangent");
+            public static FeatureDescriptor<List<double>> X2 = FeatureDescriptor.Get<List<double>>("X2");
         }
 
         class MySignature : Signature
         {
-            public List<Loop> Loops { get { return GetFeature(MyFeatures.Loop); } set { SetFeature(MyFeatures.Loop, value); } }
-            public SixLabors.Primitives.SizeF Size { get { return GetFeature(Features.Size); } set { SetFeature(Features.Size, value); } }
-
-            public bool[,] Binarized { get { return GetFeature(MyFeatures.Binarized); } set { SetFeature(MyFeatures.Binarized, value); } }
-            public List<double> Tangent { get { return GetFeature(MyFeatures.Tangent); } set { SetFeature(MyFeatures.Tangent, value); } }
+            public List<double> X2 { get { return GetFeature(MyFeatures.X2); } set { SetFeature(MyFeatures.X2, value); } }
 
         }
 
@@ -36,7 +29,7 @@ namespace Temalabor2021
         /*
         private static void UseBenchmarkExample()
         {
-            Console.WriteLine("D:\\SVC2004");
+            Console.WriteLine("C:/Users/nemet/Downloads/SVC2004.zip");
             var path = Console.ReadLine();
 
             var benchmark = new VerifierBenchmark()
@@ -76,10 +69,11 @@ namespace Temalabor2021
             var t = signature.GetFeature(Features.T);
             var p = signature.GetFeature(Features.Pressure);
             var a = signature.GetFeature(Features.Altitude);
+            var x2 = signature.GetFeature(MyFeatures.X2);
 
             for (int i = 0; i < x.Count; i++)
             {
-                Console.WriteLine($"{x[i]} \t {y[i]} \t {p[i]} \t {t[i]} \t {a[i]}");
+                Console.WriteLine($"{x[i]} \t {y[i]} \t {p[i]} \t {t[i]} \t {a[i]} \t {x2[i]}");
             }
         }
     }

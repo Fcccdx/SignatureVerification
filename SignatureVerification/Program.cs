@@ -1,7 +1,9 @@
-﻿using SigStat.Common;
+﻿using SignatureVerification;
+using SigStat.Common;
 using SigStat.Common.Framework.Samplers;
 using SigStat.Common.Loaders;
 using SigStat.Common.Model;
+using SigStat.Common.PipelineItems.Transforms.Preprocessing;
 using System;
 using System.Collections.Generic;
 
@@ -9,17 +11,6 @@ namespace Temalabor2021
 {
     class Program
     {
-        public static class MyFeatures
-        {
-            public static FeatureDescriptor<List<double>> X2 = FeatureDescriptor.Get<List<double>>("X2");
-        }
-
-        class MySignature : Signature
-        {
-            public List<double> X2 { get { return GetFeature(MyFeatures.X2); } set { SetFeature(MyFeatures.X2, value); } }
-
-        }
-
         static void Main(string[] args)
         {
             LoadSignaturesExample();
@@ -39,7 +30,7 @@ namespace Temalabor2021
                 {
                     Classifier = new SegmentDTW() //értelemszerűen a saját, általatok létrehozott osztályozó
                     {
-                        Features1 = new List<FeatureDescriptor>() { Features.X, Features.Y, Features.T }
+                        Features1 = new List<FeatureDescriptor>() { ExtraFeatures.Xdif, ExtraFeatures.Ydif, ExtraFeatures.Pdif, ExtraFeatures.Sin, ExtraFeatures.Cos }
                     }
                 },
                 Sampler = new FirstNSampler()
@@ -62,18 +53,17 @@ namespace Temalabor2021
             var signature = signaturesOfUser1[0];
 
             Console.WriteLine($"A(z) {signature.Signer.ID}. aláíró {signature.ID}. aláírása:");
-            Console.WriteLine("X \t Y \t P \t T \t Al");
+            Console.WriteLine("X \t Y \t P \t T \t");
 
             var x = signature.GetFeature(Features.X);
             var y = signature.GetFeature(Features.Y);
             var t = signature.GetFeature(Features.T);
             var p = signature.GetFeature(Features.Pressure);
-            var a = signature.GetFeature(Features.Altitude);
-            var x2 = signature.GetFeature(MyFeatures.X2);
+            var xdif = signature.GetFeature(ExtraFeatures.Xdif);
 
             for (int i = 0; i < x.Count; i++)
             {
-                Console.WriteLine($"{x[i]} \t {y[i]} \t {p[i]} \t {t[i]} \t {a[i]} \t {x2[i]}");
+                Console.WriteLine($"{x[i]} \t {y[i]} \t {p[i]} \t {t[i]} \t {xdif[i]}");
             }
         }
     }
